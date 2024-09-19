@@ -40,6 +40,10 @@ java {
     }
 }
 
+compileJava {
+    options.release.set(11)
+}
+
 dockerPrepare.dependsOn(jar)
 
 docker {

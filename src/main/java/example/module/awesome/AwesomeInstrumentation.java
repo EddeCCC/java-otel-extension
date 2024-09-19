@@ -7,19 +7,20 @@ import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
 
-import static net.bytebuddy.matcher.ElementMatchers.isMethod;
+import static net.bytebuddy.matcher.ElementMatchers.*;
 
 public class AwesomeInstrumentation implements TypeInstrumentation {
 
     @Override
     public ElementMatcher<TypeDescription> typeMatcher() {
-        return ElementMatchers.nameEndsWith("Controller");
+        return ElementMatchers.nameEndsWith("Resource")
+                .or(nameEndsWith("Controller"));
     }
 
     @Override
     public void transform(TypeTransformer typeTransformer) {
         typeTransformer.applyAdviceToMethod(
-                isMethod(),
+                isMethod().and(not(isSynthetic())),
                 this.getClass().getName() + "$AwesomeAdvice"
         );
     }

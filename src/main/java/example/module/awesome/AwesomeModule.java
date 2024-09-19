@@ -5,13 +5,17 @@ import io.opentelemetry.javaagent.extension.instrumentation.InstrumentationModul
 import io.opentelemetry.javaagent.extension.instrumentation.TypeInstrumentation;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @AutoService(InstrumentationModule.class)
 @SuppressWarnings("unused")
 public class AwesomeModule extends InstrumentationModule {
 
+    private static final Logger log = Logger.getLogger(AwesomeModule.class.getName());
+
     public AwesomeModule() {
         super("awesome-instrumentation", "awesome-instrumentation-1.0");
+        log.info("Awesome module loaded");
     }
 
     @Override
