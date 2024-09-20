@@ -1,8 +1,12 @@
 package example.module.awesome;
 
 import com.google.auto.service.AutoService;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.context.Scope;
 import io.opentelemetry.javaagent.extension.instrumentation.InstrumentationModule;
 import io.opentelemetry.javaagent.extension.instrumentation.TypeInstrumentation;
+import io.opentelemetry.javaagent.extension.matcher.AgentElementMatchers;
+import net.bytebuddy.matcher.ElementMatcher;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -21,5 +25,18 @@ public class AwesomeModule extends InstrumentationModule {
     @Override
     public List<TypeInstrumentation> typeInstrumentations() {
         return List.of(new AwesomeInstrumentation());
+    }
+
+    @Override
+    public ElementMatcher.Junction<ClassLoader> classLoaderMatcher() {
+        return AgentElementMatchers.hasClassesNamed("org.springframework.samples.petclinic.customers.CustomersServiceApplication");
+    }
+
+    @Override
+    public List<String> getAdditionalHelperClassNames() {
+        return List.of(
+                AwesomeInstrumentation.class.getName(),
+                "io.opentelemetry.javaagent.extension.instrumentation.TypeInstrumentation"
+        );
     }
 }
