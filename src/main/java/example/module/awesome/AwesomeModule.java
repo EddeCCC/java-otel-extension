@@ -26,17 +26,4 @@ public class AwesomeModule extends InstrumentationModule {
     public List<TypeInstrumentation> typeInstrumentations() {
         return List.of(new AwesomeInstrumentation());
     }
-
-    @Override
-    public ElementMatcher.Junction<ClassLoader> classLoaderMatcher() {
-        return AgentElementMatchers.hasClassesNamed("org.springframework.samples.petclinic.customers.CustomersServiceApplication");
-    }
-
-    @Override
-    public List<String> getAdditionalHelperClassNames() {
-        return List.of(
-                AwesomeInstrumentation.class.getName(),
-                "io.opentelemetry.javaagent.extension.instrumentation.TypeInstrumentation"
-        );
-    }
 }
